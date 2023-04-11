@@ -3962,7 +3962,7 @@ STL（Standard Template Library，标准模板库），STL广义上分为容器�
    erase(pos);//删除pos位置的数据，返回下一个数据的位置。
    remove(elem);//删除容器中所有与elem值匹配的元素。
 >>>>>>> c773150d856d087b91832de17ec0c70b79d6f595
-   
+
    ```
 
 4. `list`数据存取
@@ -3987,7 +3987,7 @@ STL（Standard Template Library，标准模板库），STL广义上分为容器�
    reserve(); // 反转链表
    sort(); // 链表排序
 >>>>>>> c773150d856d087b91832de17ec0c70b79d6f595
-   
+
    ```
 
 6. `forward_list`
@@ -5442,17 +5442,7 @@ void get_nextval(SString T, int nextval[]){
 1. 有且仅有一个称之为根的结点；
 2. 除根节点以外的其余结点可分为m（m>0）个互不相交的有限集T~1~、T~2~、...、T~m~，其中每一个集合本身又是一棵树，并且称为根的子树。
 
-```mermaid
-flowchart TB
-
-A((A))---B((B))---E((E))---K((K))
-E((E))---L((L))
-B---F((F))
-A---C((C))---G((G))
-A---D((D))---H((H))---M((M))
-D---I((I))
-D---J((J))
-```
+![image-20230411221452533](https://raw.githubusercontent.com/yihanzhishui/PicGo/img/image-20230411221452533.png)
 
 ##### A. 树的重要术语
 
@@ -5474,7 +5464,7 @@ D---J((J))
 1. 二叉树每个结点至多只有两棵子树（即二叉树中不存在度大于2的结点）；
 2. 二叉树的子树有左右之分，其次序不能任意颠倒。
 
-<img src="https://raw.githubusercontent.com/yihanzhishui/PicGo/img/1681030601253.jpg" alt="1681030601253" style="zoom: 15%;" />
+![image-20230411221421901](https://raw.githubusercontent.com/yihanzhishui/PicGo/img/image-20230411221421901.png)
 
 #### 3. 二叉树的性质和存储结构
 
@@ -5488,7 +5478,7 @@ D---J((J))
 
    满二叉树：深度为k且含有2^k^-1个结点的二叉树。
 
-   <img src="https://raw.githubusercontent.com/yihanzhishui/PicGo/img/1681030601249.jpg" alt="1681030601249" style="zoom: 25%;" />
+   ![image-20230411221404211](https://raw.githubusercontent.com/yihanzhishui/PicGo/img/image-20230411221404211.png)
 
 4. 性质4：具有n个结点的完全二叉树的深度为$\lfloor\log_2n\rfloor+1$。
 
@@ -5498,7 +5488,7 @@ D---J((J))
    - 如果$2i>n$，则结点i无左孩子（结点i为叶子节点）；否则左孩子$LCHILD(i)$是结点$2i$。
    - 如果$2i+1>n$，则结点i无右孩子；否则其右孩子$RCHILD(i)$是结点$2i+1$。
 
-   <img src="https://raw.githubusercontent.com/yihanzhishui/PicGo/img/1681030601244.jpg" alt="1681030601244" style="zoom:25%;" />
+   ![image-20230411221344142](https://raw.githubusercontent.com/yihanzhishui/PicGo/img/image-20230411221344142.png)
 
 ##### B. 二叉树的存储结构
 
@@ -5734,14 +5724,13 @@ void InOrderThreading(BiThrTree &Thrt, BiThrTree T) {
 }
 ```
 
-<<<<<<< HEAD
 #### 6. 树和森林
 
 ##### A. 树的存储结构
 
 1. 双亲表示法
 
-   ![img](https://github.com/yihanzhishui/PicGo/blob/img/image-20230410192841363.png?raw=true)
+   ![image-20230411221115401](https://raw.githubusercontent.com/yihanzhishui/PicGo/img/image-20230411221115401.png)
 
 2. 孩子表示法
 
@@ -5752,7 +5741,7 @@ void InOrderThreading(BiThrTree &Thrt, BiThrTree T) {
    | data | degree | child1 | ... | childd |
    ```
 
-   ![image-20230410193626397](https://github.com/yihanzhishui/PicGo/blob/img/image-20230410193626397.png?raw=true)
+   ![](https://raw.githubusercontent.com/yihanzhishui/PicGo/img/image-20230411220951049.png)
 
 3. 孩子兄弟法
 
@@ -5769,7 +5758,7 @@ void InOrderThreading(BiThrTree &Thrt, BiThrTree T) {
 
 ##### B. 森林与二叉树的转换
 
-![image-20230410194642384](https://github.com/yihanzhishui/PicGo/blob/img/image-20230410194531129.png?raw=true)
+![image-20230411220830572](https://raw.githubusercontent.com/yihanzhishui/PicGo/img/image-20230411220830572.png)
 
 步骤：① 加线，② 抹线，③ 旋转
 
@@ -5803,7 +5792,7 @@ void InOrderThreading(BiThrTree &Thrt, BiThrTree T) {
 5. 结点的带权路径长度：从该结点到树根之间的路径长度与结点上权的乘积。
 6. 树的带权路径长度：书中所有叶子结点的带权路径长度之和。$WPL=\sum_{k=1}^{n}w_kl_k$
 
-![image-20230410203002463](https://github.com/yihanzhishui/PicGo/blob/img/image-20230410203002463.png?raw=true)
+![image-20230411220759316](https://raw.githubusercontent.com/yihanzhishui/PicGo/img/image-20230411220759316.png)
 
 ##### B. 哈夫曼树的构造
 
@@ -5984,12 +5973,59 @@ $$
 
 ##### C. 图的矩阵表示
 
-![image-20230411203228503](C:\Users\32184\AppData\Roaming\Typora\typora-user-images\image-20230411203228503.png) ![image-20230411203255340](C:\Users\32184\AppData\Roaming\Typora\typora-user-images\image-20230411203255340.png)
+###### a. 无向图的关联矩阵
+
+![image-20230411215827421](https://raw.githubusercontent.com/yihanzhishui/PicGo/img/image-20230411215827421.png) ![image-20230411215856803](https://raw.githubusercontent.com/yihanzhishui/PicGo/img/image-20230411215856803.png)
 
 一个顶点占一行，一条边占一列。
 
+无向图的关联矩阵具有如下性质：
+
+1. 每一列恰好有两个 1 或一个 2，这是因为每条边关联两个顶点（环关联的两个顶点重合）。
+
+2. 第 i 行元素之和为 v~i~ 的度数，$\sum_{j=1}^m=d(v_i)$。
+
+3. 所有元素之和等于 2m ，（握手定理）
+   $$
+   \sum_{j=1}^m\sum_{i=1}^nm_{ij}=\sum_{i=1}^m\sum_{j=1}^nm_{ij}=\sum_{i=1}^nd(v_i)=2m
+   $$
+
+4. v~i~为孤立点当且仅当第 i 行全为 0，如上述矩阵第4行。
+
+5. e~j~ 与 e~k~ 为平行边当且仅当第 j 列与第 k 列相同。如上图的第2列和第3列。
+
+###### b. 有向图的关联矩阵
+
+这里要求有向图D中没有环．设无环有向图 $D=<V,E>$，$V=\{v_1,v_2,...,v_n \}$，$E=\{e_1,e_2,...,e_m \}$，令
+$$
+m_{ij}=
+\begin{cases}
+1,&&v_i为e_j的始点\\
+0,&&v_i与e_j不关联\\
+-1,&&v_i为e_j的终点
+\end{cases}
+$$
+![image-20230411222411104](https://raw.githubusercontent.com/yihanzhishui/PicGo/img/image-20230411222411104.png) ![image-20230411222328955](https://raw.githubusercontent.com/yihanzhishui/PicGo/img/image-20230411222328955.png)
+
+有向图的关联矩阵具有如下性质：
+
+1. 每一列恰好有一个1和一个-1。
+2. 第 i 行 1 的个数等于 d^+^ (v~i~)，-1 的个数等于d^-^ (v~i~)。M(D)中所有1的个数等于所有 -1 的个数，都等于 m。
+
+###### c. 有向图的邻接矩阵
+
+设有向图 $D=<V,E>$，$V={v_1,v_2,...,v_n}$，$|E|=m$. 令 $a_{ij}^{(1)}$ 为 v ~i~邻接到 v~j~ 的边的条数，称 $(a_{ij}^{(1)})_{n×m}$ 为D的邻接矩阵，记作 A(D)。
+
+![image-20230411223136073](https://raw.githubusercontent.com/yihanzhishui/PicGo/img/image-20230411223136073.png)![image-20230411223202910](https://raw.githubusercontent.com/yihanzhishui/PicGo/img/image-20230411223202910.png)
+
+有向图的邻接矩阵具有如下性质：
+
+1. 第 i 行元素之和等于 $d^+(v_i)$，$\sum_{j=1}^n a_{ij}^{(1)}=d^+(v_i)$。
+2. 第 j 行元素之和等于 $d^-(v_j)$，$\sum_{i=1}^n a_{ij}^{(1)}=d^-(v_j)$。
+3. 所有元素之和等于边数，$\sum_{i=1}^n\sum_{j=1}^na_{ij}^{(1)}=m$。
+
+###### d. 有向图的可达矩阵
+
 ## 六、查找
-
-
 
 ## 七、排序
