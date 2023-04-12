@@ -5946,7 +5946,7 @@ $$
 
   c 与 d 同构，c 称为**彼得森图**。
 
-##### B. 通路、回路和图的连通性
+#### 2. 通路、回路和图的连通性
 
 简单通路：若图的所有边互不相同。若起点等于终点时，称为**简单回路**。
 
@@ -5971,9 +5971,9 @@ $$
 
 > $K_n$无点割集，n 阶零图无割集。
 
-##### C. 图的矩阵表示
+#### 3. 图的矩阵表示
 
-###### a. 无向图的关联矩阵
+##### A. 无向图的关联矩阵
 
 ![image-20230411215827421](https://raw.githubusercontent.com/yihanzhishui/PicGo/img/image-20230411215827421.png) ![image-20230411215856803](https://raw.githubusercontent.com/yihanzhishui/PicGo/img/image-20230411215856803.png)
 
@@ -5994,7 +5994,7 @@ $$
 
 5. e~j~ 与 e~k~ 为平行边当且仅当第 j 列与第 k 列相同。如上图的第2列和第3列。
 
-###### b. 有向图的关联矩阵
+##### B. 有向图的关联矩阵
 
 这里要求有向图D中没有环．设无环有向图 $D=<V,E>$，$V=\{v_1,v_2,...,v_n \}$，$E=\{e_1,e_2,...,e_m \}$，令
 $$
@@ -6012,7 +6012,7 @@ $$
 1. 每一列恰好有一个1和一个-1。
 2. 第 i 行 1 的个数等于 d^+^ (v~i~)，-1 的个数等于d^-^ (v~i~)。M(D)中所有1的个数等于所有 -1 的个数，都等于 m。
 
-###### c. 有向图的邻接矩阵
+##### C. 有向图的邻接矩阵
 
 设有向图 $D=<V,E>$，$V={v_1,v_2,...,v_n}$，$|E|=m$. 令 $a_{ij}^{(1)}$ 为 v ~i~邻接到 v~j~ 的边的条数，称 $(a_{ij}^{(1)})_{n×m}$ 为D的邻接矩阵，记作 A(D)。
 
@@ -6024,7 +6024,125 @@ $$
 2. 第 j 行元素之和等于 $d^-(v_j)$，$\sum_{i=1}^n a_{ij}^{(1)}=d^-(v_j)$。
 3. 所有元素之和等于边数，$\sum_{i=1}^n\sum_{j=1}^na_{ij}^{(1)}=m$。
 
-###### d. 有向图的可达矩阵
+存储结构：
+
+```cpp
+#define MVNum 100        // 最大顶点数
+typedef char VerTexType; // 顶点类型
+typedef int ArcType;     // 权值类型
+
+typedef struct {
+    VerTexType vexs[MVNum];     // 顶点表
+    ArcType arcs[MVNUm][MVNum]; // 邻接矩阵
+    int vex_num, arc_num;       // 当前点数，边数
+}AMGraph;
+```
+
+邻接矩阵创建无向网
+
+```cpp
+Status CreateUDN(AMGraph &G) {
+    cin >> G.vex_num >> G.arc_num;
+    for (i = 0; i < G.vex_num; i++)
+        cin >> G.vexs[i];
+    for (i = 0; i < G.vex_num; i++) // 初始化邻接矩阵
+        for (int j = 0; j < G.arc_num; j++)
+            G.arcs[i][j] = INT_MAX;
+
+    for (k = 0; k < G.arc_num; k++) { // 构造临界矩阵
+        cin >> v1 >> v2 >> w;
+        i = LocateVex(G, v1);
+        j = LocateVex(G, v2); // 确定v1,v2在G中的位置，即顶点数组的下标
+        G.arcs[i][j] = w;            // 将边<v1,v2>的权值置为w
+        G.arcs[j][i] = G.arcs[i][j]; // 将<v1,v2>的对称边<v2,v1>权值置为w
+    }                                // for
+    return OK; // true
+}
+```
+
+算法的时间复杂度为 O(n^2^)。
+
+邻接表：
+
+<img src="https://github.com/yihanzhishui/PicGo/blob/img/image-20230412093537805.png?raw=true" alt="image-20230412093537805" style="zoom: 80%;" /><img src="https://github.com/yihanzhishui/PicGo/blob/img/image-20230412093755412.png?raw=true" alt="image-20230412093755412" style="zoom:67%;" />
+
+存储结构：
+
+```cpp
+#define MVNum 100            // 最大顶点数
+typedef struct ArcNode {     // 边结点
+    int adjvex;              // 该边所指向的顶点的位置
+    struct ArcNode *nextarc; // 指向下一条边的指针
+    OtherInfo info;          // 和边相关的信息
+} ArcNode;
+typedef struct VNode { // 顶点信息
+    VerTexType data;
+    ArcNode *firstarc;   // 指向第- - 条依附该项点的边的指针
+} VNode, AdjList[MVNum]; // AdjList表示邻接表类型
+typedef struct {
+    AdjList vertices;   // 邻接表
+    int vexnum, arcnum; // 图的当前顶点数和边数
+} ALGraph;
+```
+
+邻接表构造无向图：
+
+```cpp
+Status CreateUDG(ALGraph &G) {   // 采用邻接表表示法，创建无向图G
+    cin >> G.vex//num >> G.arcnum; // 输人总顶点数，总边数
+    for (i = 0; i < G.vexnum; ++i) {   // 输人各点，构造表头结点表
+        cin >> G.vertices[i].data;     // 输人顶点值
+        G.vertices[i].firstarc = NULL; // 初始化表头结点的指针域为NULL
+    }                                  // for
+    
+    for (k = 0; k < G.arcnum; ++k) {   // 输人各边，构造邻接表
+        cin >> v1 >> v2;               // 输人一条边依附的两个顶点
+        i = LocateVex(G, v1);
+        j = LocateVex(G, v2); // 确定v1和v2在G中位置，即顶点在G. vertices中的序号
+        p1 = new ArcNode; // 生成一个新的边结点*p1
+        pl->adjvex = j;   // 邻接点序号为j
+        p1->nextarc = G.vertices[i].firstarc;
+        G.vertices[i].firstarc = pl; // 将新结点*p1插人顶点VI的边表头部
+        p2 = new ArcNode; // 生成另一个对称的新的边结点*p2
+        p2->adjvex = i;   // 邻接点序号为i
+        p2->nextarc = G.vertices[j].firstarc;
+        G.vertices[j].firstarc = p2; // 将新结点*p2插人顶点Vvj的边表头部
+    }                                // for
+    return OK;
+}
+```
+
+算法时间复杂度为 O(n+e)。
+
+十字链表：
+
+
+
+##### D. 有向图的可达矩阵
+
+点与点之间可达为 1，反之为 0。
+
+![image-20230412083229107](https://github.com/yihanzhishui/PicGo/blob/img/image-20230412083229107.png?raw=true)![image-20230412083450390](https://github.com/yihanzhishui/PicGo/blob/img/image-20230412083450390.png?raw=true)
+
+#### 4. 最短路径、关键路径和着色
+
+##### A. 最短路径问题
+
+- 最短路径：两顶点之间权最小的通路。
+- 距离：两顶点之间最短路径的权。
+
+最短路径问题：给定简单带权图，求两点间的的最短路径及距离。
+
+:link:[Dijkstra算法详解 通俗易懂 - 知乎](https://zhuanlan.zhihu.com/p/338414118)
+
+算法步骤：
+
+1. 
+
+```cpp
+```
+
+
 
 ## 六、查找
 
