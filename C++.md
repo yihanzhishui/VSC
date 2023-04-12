@@ -6033,7 +6033,7 @@ typedef int ArcType;     // 权值类型
 
 typedef struct {
     VerTexType vexs[MVNum];     // 顶点表
-    ArcType arcs[MVNUm][MVNum]; // 邻接矩阵
+    ArcType arcs[MVNum][MVNum]; // 邻接矩阵
     int vex_num, arc_num;       // 当前点数，边数
 }AMGraph;
 ```
@@ -6154,6 +6154,10 @@ typedef struct {
 
 最短路径问题：给定简单带权图，求两点间的的最短路径及距离。
 
+###### a. Dijkstra 算法
+
+求给定点到每一点之间的最短路径。
+
 :anchor:[Dijkstra算法详解 通俗易懂 - 知乎](https://zhuanlan.zhihu.com/p/338414118)
 
 例子：
@@ -6175,7 +6179,51 @@ typedef struct {
 3. D[k] + Garcs [k\][i]<D[i] 成立，则更新D[i] = D[k] + Garcs[k][]，同时更改V;的前驱为vk； Path [i]=k。
 
 ```cpp
+void ShortestPath_DIJ(AMGraph G, int v0) {
+    n = G.vex_num;            // n为G中顶点个数
+    for (v = 0; v < n; v++) { // 顶点初始化
+        S[v] = false;         // S初始为空集
+        D[v] = G.arcs[v0][v]; // 将v0到各个终点的最短路径长度初始化为弧上的权值
+        if (D[v] < INT_MAX)   // 如果v0和v之间有弧，则将v的前驱置为v0
+            Path[v] = v0;
+        else 				  // 如果v0和v之间无弧，则将v的前驱置为-1
+            Path[v] = -1;
+    }             			  // for
+    S[v0] = true; 			  // 将v0加入S
+    D[v0] = 0;    			  // 源点到源点距离为0
+    /* - - - - - 初始化结束 - - - - - */
+    for (i = 0; i < n; i++) { // 计算其余n-1个点
+        min_ = INT_MAX;
+        for (w = 0; w < n; w++)
+            if (!S[w] && D[w] < min_) { // 选择一条当前的最短路径，终点为v
+                v = w;
+                min_ = D[w];
+            }
+        S[v] = true; 					// 将v加入S
+        for (w = 0; w < n; w++) 		// 更新从vo出发到集合V-s上所有顶点的最短路径长度
+            if (!S[w] && (D[v] + G.arcs[v][w] < D[w])) {
+                D[w] = D[v] + G.arcs[v][w]; // 更新D[w]
+                Path[w] = v;                // 更改w的前驱为v
+            }                               // if
+    }                                       // for
+}
 ```
+
+> - 一维数组 S[i]：记录从源点v0到终点vi是否已被确定最短路径长度，true 表示确定，false表示尚未确定。
+>
+> - 一维数组 Path[i]：记录从源点vo到终点vi的当前最短路径上vi的直接前驱顶点序号。其初值为：
+>
+>   如果从v0到vi有弧，则Path[i]为vo；否则为-1。
+>
+> - 一维数组D[i]：记录从源点v0到终点vi的当前最短路径长度。其初值为：
+>
+>   如果从v0到vi有弧，则D[i]为弧上的权值；否则为$\infty$。
+
+###### b. Floyd 算法
+
+求两两点之间的最短路径。
+
+:anchor:[Floyd算法详解 通俗易懂 - 知乎](https://zhuanlan.zhihu.com/p/339542626)
 
 
 
