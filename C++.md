@@ -2870,7 +2870,7 @@ public:
 		}
 
 		// 检查无误，开始删除
-		for (int i = 0; i < n; i++) this->pAddress[this->m_size--] = NULL;
+		for (int i = 0; i < n; i++) this->pAddress[this->m_size--] = nullptr;
 		return TRUE;
 	}
 
@@ -5024,7 +5024,7 @@ typedef struct LNode{
 ```cpp
 Status InitList(LinkList &L){
     L=new LNode; // 生成新结点作为头结点，用头指针L指向头结点
-    L->next=NULL; // 指针域置空
+    L->next=nullptr; // 指针域置空
     return OK;
 }
 ```
@@ -5034,7 +5034,7 @@ Status InitList(LinkList &L){
 算法步骤：
 
 1. 用指针 p 指向首元结点，用 j 做计数器初值赋为 1。
-2. 从首元结点开始依次顺着链域 next 向下访问，只要指向当前结点的指针 p 不为空（NULL），并且欸有达到序号 i 的结点，则循环执行以下操作：
+2. 从首元结点开始依次顺着链域 next 向下访问，只要指向当前结点的指针 p 不为空（nullptr），并且欸有达到序号 i 的结点，则循环执行以下操作：
    - p 指向下一个结点
    - 计数器 j 相应加 1
 3. 退出循环时，如果指针 p 为空，或者计数器 j 大于 i ，说明指定的序号 i 值不合法（ i 大于表长 n 或 i 小于等于 0)，取值失败返回ERROR；否则取值成功，此时 j=i 时，p 所指的结点就是要找的第 i 个结点，用参数 e 保存当前结点的数据域，返回OK。
@@ -5060,7 +5060,7 @@ Status GetEle(LinkList L, int i, ElemType &e){
 
 1. 用指针 p 指向首元结点。
 2. 从首元结点开始依次顺着链域 next 向下查找，只要指向当前结点的指针 p 不为空，并且 p 所指结点的数据域不等于给定值 e，则循环执行：p 指向下一个结点。
-3. 返回 p。若查找成功，p 此时即为结点的地址值，若查找失败，p 为 NULL。
+3. 返回 p。若查找成功，p 此时即为结点的地址值，若查找失败，p 为 nullptr。
 
 ```cpp
 LNode *LocateElem(LinkList L, ElemType e){
@@ -5143,7 +5143,7 @@ Status ListDelete(LinkList &L, int i){
 ```cpp
 void CreateList_H(LinkList &L, int n){
     L=new LNode;
-    L->next=NULL;
+    L->next=nullptr;
     for(i=0;i<n;++i){
         p=new LNode;
         cin>>p->data;
@@ -5170,12 +5170,12 @@ void CreateList_H(LinkList &L, int n){
 ```cpp
 void CreateList_R(LinkList &L, int n){
     L=new LNode;
-    L->next=NULL;
+    L->next=nullptr;
     r=L;
     for(i=0;i<n;++i){
         p=new LNode;
         cin>>p->data;
-        p->next=NULL;
+        p->next=nullptr;
         r->next=p;
         r=p;
     }
@@ -5188,7 +5188,7 @@ void CreateList_R(LinkList &L, int n){
 
 表中的最后一个结点的指针域指向头结点，形成一个环。判断当前指针 p 是否指向尾结点的终止条件：
 
-单链表：`p!=NULL`或`p->next!=NULL`
+单链表：`p!=NULL`或`p->next!=nullptr`
 
 循环链表：`p!=L`或`p->next!=L`
 
@@ -5541,15 +5541,15 @@ void InOrderTraverse(BiTree T) {
 
 ```cpp
 void InOrderTraverse(BiTree T) {
-    InitStack(S);
+    stack<BiTree> s;
     p = T;
     q = new BiTNode;
-    while (p || !StackEmpty(S)) {
+    while (p || !s.empty()) {
         if (p) {             // p 非空
-            Push(S, p);      // 根指针退栈
+            s.push(p);      // 根指针退栈
             p = p->lchild;   // 跟指针进栈，遍历左子树
         } else {             // p 为空
-            Pop(S, q);       // 退栈
+            s.pop();       // 退栈
             cout << q->data; // 访问根结点
             p = q->rchild;   // 遍历右子树
         }
@@ -5595,8 +5595,8 @@ void CreateBiTree(BiTree &T) {
 
 ```cpp
 void Copy(BiTree T, BiTree &NewT) {
-    if (T == NULL) {                   // 如果是空树，结束递归
-        NewT = NULL;
+    if (T == nullptr) {                   // 如果是空树，结束递归
+        NewT = nullptr;
         return;
     } else {
         NewT = new BiTNode;
@@ -5619,7 +5619,7 @@ void Copy(BiTree T, BiTree &NewT) {
 
 ```cpp
 int Depth(BiTree T) {
-    if (T == NULL)
+    if (T == nullptr)
         return 0;                         // 如果是空树，递归结束，深度为0
     else {
         m = Depth(T->lchild);             // 递归计算左子树的深度为m
@@ -5633,7 +5633,7 @@ int Depth(BiTree T) {
 
 ```cpp
 int NodeCount(BiTree T){
-    if(T==NULL) return 0; // 空树结点为0
+    if(T == nullptr) return 0; // 空树结点为0
     else return NodeCount(T->lchild)+NodeCount(T->rchild)+1; // 否则为左右子树结点和加1
 }
 ```
@@ -6158,7 +6158,7 @@ typedef struct {
 
 求给定点到每一点之间的最短路径。
 
-:anchor:[Dijkstra算法详解 通俗易懂 - 知乎](https://zhuanlan.zhihu.com/p/338414118)
+:anchor:[**Dijkstra算法详解 通俗易懂 - 知乎**](https://zhuanlan.zhihu.com/p/338414118)
 
 例子：
 
@@ -6223,7 +6223,13 @@ void ShortestPath_DIJ(AMGraph G, int v0) {
 
 求两两点之间的最短路径。
 
-:anchor:[Floyd算法详解 通俗易懂 - 知乎](https://zhuanlan.zhihu.com/p/339542626)
+:anchor:[**Floyd算法详解 通俗易懂 - 知乎**](https://zhuanlan.zhihu.com/p/339542626)
+
+例子：
+
+![image-20230412193613519](https://raw.githubusercontent.com/yihanzhishui/PicGo/img/image-20230412193613519.png)
+
+![image-20230412193639531](https://raw.githubusercontent.com/yihanzhishui/PicGo/img/image-20230412193639531.png)
 
 算法步骤：
 
@@ -6252,6 +6258,82 @@ void ShortestPath_Floyd(AMGraph G){
 ```
 
 算法时间复杂度为O(n^3^)。
+
+##### B. 关键路径问题
+
+###### a. 拓扑排序
+
+用顶点表示活动，用弧表示活动间的优先关 系的有向图称为顶点表示活动的网，简称**AOV-网**。
+
+**拓扑排序**就是将AOV-网中所有顶点排成一个线性序列，该序列满足：若在AOV-网中由顶点vi到顶点vj有一条路径，则在该线性序列中的顶点vi必定在顶点vj之前。
+
+**拓扑排序的过程**：
+
+1. 在有向图中选一个无前驱的顶点且输出它。
+2. 从图中删除该顶点和所有以它为尾的弧。
+3. 重复 1 和 2，直至不存在无前驱的顶点。
+4. 若此时输出的顶点数小于有向图中的顶点数，则说明有向图中存在环，否则输出的顶点序列即为一个拓扑序列。
+
+![image-20230412202431810](https://raw.githubusercontent.com/yihanzhishui/PicGo/img/image-20230412202431810.png)
+
+算法步骤：
+
+1. 求出各顶点的入度存入数组 indegree[i] 中， 并将入度为0的顶点入栈。
+2. 只要栈不空， 则重复以下操作：
+   - 将栈顶顶点 vi 出栈并保存在拓扑序列数组 topo 中；
+   - 对顶点vi的每个邻接点vk的入度减 1, 如果vk的入度变为0, 则将vk入栈。
+3. 如果输出顶点个数少于AOV-网的顶点个数，则网中存在有向环，无法进行拓扑排序，否则拓扑排序成功。
+
+```cpp
+Status TopologcalSort(ALGraph G, int topo[]) {
+    FindInDegree(G, indegree); // 求出各顶点的入度存入数组indegree中
+    stack<int> s;              // 栈初始化为空
+    for (i = 0; i < G.vex_num; i++)
+        if (!indegree[i])
+            s.push(i);              // 入度为0者进栈
+    m = 0;                          // 对输出顶点计数，初始为0
+    while (s.empty()) {             // 栈S非空
+        s.pop();                    // 将栈顶顶点vi出栈
+        topo[m] = i;                // 将vi保存在拓扑序列数组topo中
+        m++;                        // 对输出顶点计数
+        p = G.vertices[i].firstarc; // p指向vi的第一个邻接点
+        while (p != nullptr) {
+            k = p->adjvex; // vk为vi的邻接点
+            indegree[k]--; // vi的每个邻接点的入度减1
+            if (indgree[k] == 0)
+                s.push(k);  // 若入度减为0，则入栈
+            p = p->nextarc; // p指向顶点vi下一个邻接结点
+        }                   // while
+    }                       // while
+    if (m < G.vex_num)
+        return ERROR; // 图有回路
+    else
+        return OK;
+}
+```
+
+时间复杂度为 O(n+e)。
+
+###### b. 关键路径
+
+图中从始点到终点的最长路径的长度。图中从始点到终点的最长路径称作**关键路径**。关键路径上的活动称作**关键活动**。
+
+活动的最早发生时间和最晚发生时间**相等**的路径就是关键路径。
+
+例子：
+
+![image-20230412195127812](https://raw.githubusercontent.com/yihanzhishui/PicGo/img/image-20230412195127812.png)
+
+![image-20230412195107285](https://raw.githubusercontent.com/yihanzhishui/PicGo/img/image-20230412195107285.png)
+
+项目网络图应该满足：
+
+1. 有一个始点和一个终点．始点的入度为0，表示项目开始﹔终点的出度为0，表示项目结束。
+2. 任意两点之间只能有一条边。例如，活动C的紧前活动是A和B，不能画成图5-16(a)的样子，而必须引人一个虚活动(图中的虚线箭头)画成图5-16(b)的样子，虚活动的完成时间是0。在图5-15中顶点2到3的箭头是虚活动。
+3. 没有回路。
+4. 每一条边的始点的编号小于终点的编号。
+
+
 
 ## 六、查找
 
