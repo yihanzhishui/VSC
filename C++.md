@@ -6225,8 +6225,34 @@ void ShortestPath_DIJ(AMGraph G, int v0) {
 
 :anchor:[Floyd算法详解 通俗易懂 - 知乎](https://zhuanlan.zhihu.com/p/339542626)
 
+算法步骤：
 
+将 vi 到 vj 的最短路径长度初始化， 即D[i\][j] = G.arcs[i]，然后进行n次比较和更新。
 
-## 六、查找 
+1. 在vi和vj间加入顶点v0， 比较 (vi, vj) 和 (vi, v0, vj) 的路径长度，取其中较短者作为vi到vj的中间顶点序号不大于0的最短路径。
+2. 在vi和vj间加入顶点v1，得到 (vi,…, vj) 和 (v1,…, vj)， 其中 (vi,…,v1) 是vi到vj的且 中间顶点的序号不大于 0 的最短路径， (v1,…, vj）是vi到 vj的且中间顶点的序号不大于 0 的最短路径，这两条路径已在上一步中求出。 比较 (vi,…, v1, …, vj) 与上一步求出的vi到vj的中间顶点序号不大于 0 的最短路径，取其中较短者作为vi到vj的中间顶点序号不大于 1 的最短路径。
+3. 依次类推，在vi和vj间加入顶点vk, 若 (vi,..., vk) 和 (vk,…, vj) 分别是从vi到vk和从vk到vj的中间顶点的序号不大于k-1的最短路径， 则将(vi,…, vk, …, vj）和已经得到的从vi到vj且中间顶点序号不大于k-1的最短路径相比较， 其长度较短者便是从vi到vj的中间顶点的序号不大于k的最短路径。这样， 经过n次比较后， 最后求得的必是从vi到vj的最短路径。按此方法， 可以同时求得各对顶点间的最短路径。
+
+```cpp
+void ShortestPath_Floyd(AMGraph G){
+    for(i=0;i<G.vex_num;i++) // 各对结点之间初始已知路径及距离
+        for(j=0;j<G.vex_num;j++){
+            D[i][j]=G.arcs[i][j];
+            if(D[i][j]<INT_MAX) Path[i][j]=i; // 如果i和j之间有弧，则将j的前驱置为i
+            else Path[i][j]=-1; // 如果i和j之间无弧，则将j的前驱置为-1
+        } // for
+    for(k=0;k<G.vex_num;k++)
+        for(i=0;i<G.vex_num;i++)
+            for(j=0;j<G.vex_num;j++)
+                if(D[i][k]+D[k][j]<D[i][j]){ // 从i经k到j的一条路径更短
+                    D[i][j]=D[i][k]+D[k][j]; // 更新D[i][j]
+                    Path[i][j]=Path[k][j]; // 更改j的前驱为k
+                } //if
+}
+```
+
+算法时间复杂度为O(n^3^)。
+
+## 六、查找
 
 ## 七、排序
