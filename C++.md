@@ -6116,7 +6116,28 @@ Status CreateUDG(ALGraph &G) {   // 采用邻接表表示法，创建无向图G
 
 十字链表：
 
+![image-20230412111957204](https://github.com/yihanzhishui/PicGo/blob/img/image-20230412111957204.png?raw=true)
 
+十字链表的存储结构：
+
+```cpp
+#define MAX_VERTEX_NUM 20
+typedef struct ArcBox {
+    int tailvext, headvex; // 该弧的尾和头顶点的位置
+    struct ArcBox *hlink, *tlink; // 分别为弧头相同和弧尾相同的弧的链域
+    InfoType *info;               // 该弧相关信息的指针
+} ArcBox;
+
+typedef struct VexNode {
+    VertexType data;
+    ArcBox *firstin, *firstout; // 分别指向该项点第一.条入弧和出弧
+} VexNode;
+
+typedef struct {
+    VexNode xlist[MAX_VERTEX_NUM]; // 表头向量
+    int vexnnm, arcnum;            // 有向图的当前顶点数和弧数
+} OLGraph;
+```
 
 ##### D. 有向图的可达矩阵
 
@@ -6133,17 +6154,31 @@ Status CreateUDG(ALGraph &G) {   // 采用邻接表表示法，创建无向图G
 
 最短路径问题：给定简单带权图，求两点间的的最短路径及距离。
 
-:link:[Dijkstra算法详解 通俗易懂 - 知乎](https://zhuanlan.zhihu.com/p/338414118)
+:anchor:[Dijkstra算法详解 通俗易懂 - 知乎](https://zhuanlan.zhihu.com/p/338414118)
+
+例子：
+
+![image-20230412113839793](https://github.com/yihanzhishui/PicGo/blob/img/image-20230412113839793.png?raw=true)
+
+![image-20230412114038179](https://github.com/yihanzhishui/PicGo/blob/img/image-20230412114038179.png?raw=true)
 
 算法步骤：
 
-1. 
+1. 初始化:
+   - 将源点v0加到S中，即S[v0] = true；
+   - 将vo到各个终点的最短路径长度初始化为权值，即D[i] = Garcs\[vo\][vi]， (vi∈V- S)；
+   - 如果v0和顶点vi之间有弧，则将vi的前驱置为v0，即Path[i]=v0，否则Path[i]=-1。
+2. 循环n-1次，执行以下操作:
+   - 选择下一条最短路径的终点 以k，使得: D[k] = Min{D[i] | vi∈V- S}
+   - 将v加到S中，即S[vi]= true；
+   - 根据条件更新从v0出发到集合V-S上任一顶点的最短路径的长度，若条件
+3. D[k] + Garcs [k\][i]<D[i] 成立，则更新D[i] = D[k] + Garcs[k][]，同时更改V;的前驱为vk； Path [i]=k。
 
 ```cpp
 ```
 
 
 
-## 六、查找
+## 六、查找 
 
 ## 七、排序
