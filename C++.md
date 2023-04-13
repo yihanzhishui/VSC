@@ -6660,6 +6660,68 @@ void MiniSpanTree_Kruskal(AMGraph G){
 
 ## 六、查找
 
+#### 1. 线性表的查找
+
+##### A. 顺序查找
+
+顺序查找的查找过程为：从表的一端开始，依次将记录的关键字和给定值进行比较，若某个记录的关键字和给定值相等，则查找成功；反之，若扫描整个表后，仍未找到关键字和给定值相等的记录，则查找失败。
+
+数据元素类型：
+
+```cpp
+typedef struct{
+    KeyType key; // 关键字域
+    InfoType otherinfo; // 其他域
+}ElemType;
+```
+
+###### a. 顺序查找
+
+```cpp
+int Search_Seq(SSTable ST, KeyType key){
+    for(i=ST.length;i>=1;i--)
+        if(ST.R[i].key==key) return i; // 从后往前
+    return 0;
+}
+```
+
+###### b. 带监视哨的顺序查找
+
+```cpp
+int Search_Seq(SSTable ST, KeyType key){
+    ST.R[0].key=key; // "哨兵"
+    for(i=ST.length;ST.R[i].key!=key;i--); // 从后往前
+    return i;
+}
+```
+
+##### B. 折半查找
+
+算法步骤：
+
+1. 置查找区间初值，low为-1，high为表长。
+2. 当 low<=high 时，循环执行以下操作：
+   - mid 取值为 low 和 high 的中间值。
+   - 将给定值 key 与中间位置记录的关键字进行比较，若相等则查找成功，返回中间位置 mid。
+   - 若不相等则利用中间位置记录将表对分成前、后两个子表 。如果 key 比中间位置记录的关键字小，则 high 取为 mid-1 , 否则 low取为mid+1。
+3. 循环结束，说明查找区间为空，则查找失败，返回0。
+
+```cpp
+int Search_Bin(SSTable ST, KeyType key){
+    low=1;
+    high=ST.length;
+    while(low<=high){
+        mid=(low+high)/2;
+        if(key==ST.R.[mid].key) return mid;   // 找到待查元素
+        else if(key<ST.R[mid].key) high=mid-1;// 查前一子表
+        else low=mid+1; // 查后一子表
+    }
+    return 0; // 不存在待查元素
+}
+```
+
+时间复杂度 O($\log_2n$)。
+
 
 
 ## 七、排序
