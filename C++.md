@@ -6432,13 +6432,159 @@ Status CriticalPath(ALGraph G) { // G为邻接表存储的有向网，输出G的
 
 #### 6. 遍历图
 
-##### A. 深度优先
+##### A. 深度优先 -- DFS
 
 ###### a. 深度优先的过程
 
+DFS 类似树的先序遍历，是树的先序遍历的推广。对于一个连通图，深度优先搜索遍历的过程如下。
 
+1. 从图中某个顶点v出发， 访问v。
+2. 找出刚访问过的顶点的第一个未被访问的邻接点，访问该顶点。以该顶点为新顶点，重复此步骤，直至刚访问过的顶点没有未被访问的邻接点为止。
+3. 返回前一个访问过的且仍有未被访问的邻接点的顶点，找出该顶点的下一个未被访问的邻接点， 访问该顶点。
+4. 重复步骤 (2) 和(3)，直至图中所有顶点都被访问过，搜索结束。
+
+###### b. 算法步骤
+
+1. 从图中某个顶点v出发，访问v，并置visited[v]的值为true。
+2. 依次检查 v 的所有邻接点 w，如果 visited[w]的值为 false，再从 w 出发进行递归遍历，直到图中所有顶点都被访问过。
+
+遍历连通图：
+
+```cpp
+bool visited[MVNum]; 	  // 访问标志数组，其初值为 false
+void DFS(Graph G, int v){ // 从第v个顶点出发递归地深度优先遍历G
+    cout<<v;
+    visited[v]=true; 	  // 访问第v个顶点，并置访问并置访问标志数组相应分量值为true
+    // 依次检查v的所有邻接点w，FirstAdjVex(G,v)表示v的第一个邻接点
+    // NextAdjVex(G,v,w)表示v相对于w的下一个邻接点，w>=表示存在邻接点
+    for(w=FirstAdjVex(G,v);w>=0;w=NextAdjVex(G,v,w))
+        if(!visited[w]) DFS(G,w); // 对v的尚未访问的临界顶点w递归调用 DFS
+}
+```
+
+遍历非连通图：
+
+```cpp
+void DFSTraverse(Graph G){
+    for(v=0;v<G.vex_num;v++) visited[v]=false; // 访问标志数组初始化
+    for(v=0;v<G.vex_num;v++)
+        if(!visited[v]) DFS(G,v); // 对尚未访问的顶点调用DFS
+}
+```
+
+采用邻接矩阵时，时间复杂度为 O(n^2^)。
+
+采用邻接矩阵表示图的深度优先搜索遍历：
+
+```cpp
+void DFS_AM(AMGraph G, int v){
+    cout<<v;
+    visited[v]=true; // 访问第v个顶点，并置访问标志数组相应分量值为true
+    for(w=0;w<G.vex_num;w++)
+        // G.arcs[v][w]！=0 表示w是v的邻接点，如果w未访问，则递归调用DFS
+        if((G.arcs[v][w]!=0) && (!visited[w])) DFS(G,w);
+}
+```
+
+采用邻接表表示图的深度优先搜索遍历：
+
+```cpp
+void DFS_AL(ALGraph G, int v){
+    cout<<v;
+    visited[v]=true; 		  // 访问第v个顶点，并置访问标志数组相应分量值为true
+    p=G.vertices[v].firstarc; // p指向v的边链表的第一个结点
+    while(p!=nullptr){ 		  // 边结点非空
+        w=p->adjvex; 		  // 表示w是v的邻接点
+        if(!visited[w]) DFS(G,w); // 如果w未访问，则递归调用DFS
+        p=p->nextarc; 			  // p指向下一个边结点
+    }							  //while
+}
+```
+
+采用邻接表时，时间复杂度为 O(n+e)。
 
 ##### B. 广度优先
+
+###### a. 广度优先过程 -- BFS
+
+BFS 遍历类似于树的按层次遍历的过程。
+
+1. 从图中某个顶点v出发，访问v。
+2. 依次访问v的各个未曾访问过的邻接点。
+3. 分别从这些邻接点出发依次访问它们的邻接点，并使<先被访问的顶点的邻接点>先千<后被访问的顶点的邻接点>被访问。重复步骤(3)，直至图中所有已被访问的顶点的邻接点都被访问到。
+
+###### b. 算法步骤
+
+1. 从图中某个顶点 v 出发，访问 v，并置 visited[v] 的值为 true，然后将 v 进队。
+2. 只要队列不空，则重复下述操作：
+   - 队头顶点 u 出队；
+   - 依次检查 u 的所有邻接点 w，如果 visited[w]的值为 false，则访问 w，并置 visited[w]的值为 true，然后将 w 进队。
+
+```cpp
+void BFS(Graph G, int v){
+    cout<<v;
+    visited[v]=true;   // 访问第v个顶点，并置访问标志数组相应分量值为true
+    queue<bool> q;     // 辅助队列q初始化，置空
+    q.push(v); 	       // v 进队
+    while(!q.empty()){ // 队列非空
+        u=q.front();   // 对头元素出队并置为u
+        q.pop();
+        for(w=FirstAdjVex(G,u);w>=0;w=NextAdjVex(G,u,w))
+            // 依次检查u的所有邻接点w，FirstAdjVex(G,u)表示u的第一个邻接点
+            // NextAdjVex(G,u,w)表示u相对于w的下一个邻接点，w>=0表示存在邻接点
+            if(!visited[w]){ // w为u的尚未访问的邻接点
+                cout<<w;
+                visited[w]=true; // 访问w，并置访问标志数组相应分量值为true
+                q.push(w); 		 // w进队
+            }// if
+    } 		 // while
+}
+```
+
+当用邻接矩阵存储时，时间复杂度为O(n^2^ )；用邻接表存储时，时间复杂度为O(n+ e)。
+
+#### 7. 图的应用
+
+##### A. 最小生成树
+
+在一个连通网的所有生成树中，各边的代价之和最小的那棵生成树称 为该连通网的最小代价生成树，简称为**最小生成树**。
+
+###### a. 普利姆算法
+
+![image-20230413113944283](https://raw.githubusercontent.com/yihanzhishui/PicGo/img/img/image-20230413113944283.png)
+
+**加点法**
+
+```cpp
+struct {
+    VerTexType adjvex; // 最小边在 U 中的那个顶点
+    ArcType lowcost;   // 最小边上的权值
+}closedge[MVNum];
+```
+
+算法步骤：
+
+1. 首先将初始顶点 u 加入 U 中，对其余的每一个顶点 vj，将 `closedge[j]` 均初始化为到 u 的边信息。
+2. 循环 n-1 次，做如下处理：
+   - 从各组边 `closedge` 中选出最小边 `closedge[k]`，输出此边；
+   - 将 k 加入 U 中；
+   - 更新剩余的每组最小边信息 `closedge[i]`，对于 V-U 中的边，新增加了一条从 k 到 j 的边，如果新边的权值比 `closedge[i].lowcost` 小，则将 `closedge[j].lowcost` 更新为新边的权值。
+
+```cpp
+void MiniSpanTree_Prim(AMGraph G, VerTexType u){
+    k=LocateVex(G,u);
+    for(j=0;j<G.vex_num;j++)
+        if(j!=k) closedge[j]=
+}
+```
+
+
+
+##### B. 最短路径
+
+##### C. 拓扑排序
+
+##### D. 关键路径
 
 ## 六、查找
 
