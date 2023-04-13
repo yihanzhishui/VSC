@@ -6147,7 +6147,9 @@ typedef struct {
 
 #### 4. 最短路径、关键路径和着色
 
-##### A. 最短路径问题
+<span name="ShortestPath">:anchor:最短路径</span> 
+
+##### A. 最短路径问题  
 
 - 最短路径：两顶点之间权最小的通路。
 - 距离：两顶点之间最短路径的权。
@@ -6261,6 +6263,8 @@ void ShortestPath_Floyd(AMGraph G){
 
 ##### B. 关键路径问题
 
+<span name="TopoLogicalSort">:anchor:拓扑排序</span>
+
 ###### a. 拓扑排序
 
 用顶点表示活动，用弧表示活动间的优先关 系的有向图称为顶点表示活动的网，简称**AOV-网**。
@@ -6313,6 +6317,8 @@ Status TopologcalSort(ALGraph G, int topo[]) {
 ```
 
 时间复杂度为 O(n+e)。
+
+<span name="SecretPath">:anchor:关键路径</span>
 
 ###### b. 关键路径
 
@@ -6553,6 +6559,8 @@ void BFS(Graph G, int v){
 
 ![image-20230413113944283](https://raw.githubusercontent.com/yihanzhishui/PicGo/img/img/image-20230413113944283.png)
 
+![image-20230413143423871](https://raw.githubusercontent.com/yihanzhishui/PicGo/img/img/image-20230413143423871.png)
+
 **加点法**
 
 ```cpp
@@ -6572,20 +6580,86 @@ struct {
 
 ```cpp
 void MiniSpanTree_Prim(AMGraph G, VerTexType u){
-    k=LocateVex(G,u);
+    k=LocateVex(G,u); // k为顶点u的下标
     for(j=0;j<G.vex_num;j++)
-        if(j!=k) closedge[j]=
+        if(j!=k) closedge[j]={u,G.arcs[k][j]};
+    closedge[k].lowcost=0;
+    for(i=1;i<G.vex_num;i++){
+        k=Min(closedge);
+        u0=closedge[k].adjvex;
+        v0=G.vexs[k];
+        cout<<u0<<v0;
+        closedge[k].lowcost=0;
+        for(j=0;j<G.vex_num;j++)
+            if(G.arcs[k][j]<closedge[j].lowcost)
+                closedge[j]={G.vexs[k],G.arcs[k][j]};
+    }//for
+    
 }
 ```
 
+算法的时间复杂度 O(n^2^)。
 
+###### b. 克鲁斯卡尔算法
+
+![image-20230413143545495](https://raw.githubusercontent.com/yihanzhishui/PicGo/img/img/image-20230413143545495.png)
+
+**加边法**
+
+```cpp
+struct {
+    VerTexType Head; // 边始点
+    VerTexType Tail; // 边终点
+    ArcType lowcost; // 边权值
+}Edge[arc_num];
+
+int Vexset[MVNum];
+```
+
+算法步骤：
+
+1. 将数组Edge中的元素按权值从小到大排序。
+2. 依次查看数组Edge中的边，循环执行以下操作：
+   - 依次从排好序的数组Edge中选出一条边 (U1,U2)；
+   - 在Vexset中分别查找 v1 和 v2 所在的连通分量 vs1 和 vs2，进行判断：
+     - 如果 vs1 和 vs2 不等，表明所选的两个顶点分属不同的连通分量，输出此边，并合并 vs1 和 vs2 两个连通分量；
+     - 如果 vs1 和 vs2 相等，表明所选的两个顶点属于同一个连通分量，舍去此边而选择下 一条权值最小的边。
+
+```cpp
+void MiniSpanTree_Kruskal(AMGraph G){
+    Sort(Edge); // 由小到大
+    for(i=0;i<G.vex_num;i++) // 表示各顶点自成一个连通分量
+        Vexset[i]=i;
+    for(i=0;i<G.vex_num;i++){ 
+        v1=LOcateVex(G,Edge[i].Head);
+        v2=LocateVex(G,Edge[i].Tail);
+        vs1=Vexset[v1]; // 获取Edge[i]的始点所在的连通分量vs1
+        vs2=Vexset[v2]; // 获取Edge[i]的始点所在的连通分量vs2
+        if(vs1!=vs2){   // 边的两个顶点属于不同连通分量
+            cout<<Edge[i].Head<<Edge[i].Tail;
+            for(j=0;j<G.vex_num;j++) // 使vs1、vs2两个分量统一集合编号
+                if(Vexset[j]==vs2) Vexset[j]=vs1;
+        }//if
+    }//for
+}
+```
+
+算法的时间复杂度 O($e\log_2e$)。
 
 ##### B. 最短路径
 
+:anchor:[点击这里](#ShortestPath)
+
 ##### C. 拓扑排序
+
+:anchor:[点击这里](#TopoLogicalSort)
 
 ##### D. 关键路径
 
+:anchor:[点击这里](#SecretPath)
+
 ## 六、查找
+
+
 
 ## 七、排序
