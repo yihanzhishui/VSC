@@ -6901,4 +6901,19 @@ void DeleteBST(BSTree &T, KeyType key) {
 
 - 平衡因子：定义为该结点左子树和右子树的深度之差，则平衡二叉树上所有结点的平衡因子只可能是 -1、0 和 1。
 
+平衡树的生成过程：
+
+![image-20230413215422041](https://raw.githubusercontent.com/yihanzhishui/PicGo/img/image-20230413215422041.png)![image-20230413215253676](https://raw.githubusercontent.com/yihanzhishui/PicGo/img/image-20230413215253676.png)
+
+![image-20230413215444006](https://raw.githubusercontent.com/yihanzhishui/PicGo/img/image-20230413215444006.png)
+
+一般情况下，假设最小不平衡子树的根结点为 A，则失去平衡后进行调整的规律可归纳为下列4种情况。
+
+1. LL型：
+2. RR型：
+3. LR型：
+4. RL型：
+
+
+
 ## 七、排序
