@@ -6695,6 +6695,8 @@ int Search_Seq(SSTable ST, KeyType key){
 }
 ```
 
+算法时间复杂度为 O(n)。
+
 ##### B. 折半查找
 
 算法步骤：
@@ -6722,6 +6724,102 @@ int Search_Bin(SSTable ST, KeyType key){
 
 时间复杂度 O($\log_2n$)。
 
+##### C. 分块查找
 
+分块查找又称索引顺序查找，这是一种性能介于顺序查找和折半查找之间的一种查找方法。
+
+![image-20230413162900725](https://raw.githubusercontent.com/yihanzhishui/PicGo/img/image-20230413162900725.png)
+
+因此，分块查找过程需分两步进行。先确定待查记录所在的块（子表），然后在块中顺序查找。**块内无序，块间有序。**
+
+```cpp
+typedef struct {
+    int key;   // 最大关键字
+    int start; // 块开始下标
+    int end;   // 块结束下标
+} Node;
+```
+
+算法步骤：
+
+1. 先进行顺序查找或者折半查找，找到块。
+2. 在块内进行顺序查找。
+
+```cpp
+int BlockingSearch(int key, int a[]) { // 折半查找
+    int low = 1, high = table.len, mid;
+    while (low <= high) {
+        mid = (low + high) / 2;          // 找到中间位置
+        if (key <= table.idx[mid].key) { // 顺序查找
+            if (key <= table.idx[mid - 1].key) high = mid - 1;
+            else {
+                for (int i = table.idx[mid].start; i <= table.idx[mid].end; i++)
+                    if (key == a[i]) return (i + 1); // 从1开始算起
+                return 0;
+            }
+        } else low = mid + 1; // 如果小于查找的记录则重新定位mid指针
+    }
+    return 0;
+}
+```
+
+#### 2. 树表的查找
+
+##### A. 二叉排序树
+
+二叉排序树或者是一棵空树，或者是具有下列性质的二叉树：
+
+1. 若它的左子树不空，则左子树上所有结点的值均小于它的根结点的值； 
+2. 若它的右子树不空，则右子树上所有结点的值均大于它的根结点的值； 
+3. 它的左、右子树也分别为二叉排序树。
+
+二叉排序树是递归定义的。 由定义可以得出二叉排序树的一个重要性质：中序遍历一棵二叉树时可以得到一个结点值递增的有序序列。
+
+![image-20230413165502759](https://raw.githubusercontent.com/yihanzhishui/PicGo/img/image-20230413165502759.png)
+
+> $3，12，24，37，45，53，61，78，90，100$
+>
+> $CAO， CHEN，DING，DU，LI，MA，WANG，XIA，ZHAO$
+
+二叉排序树的二叉链表存储表示：
+
+```cpp
+typedef struct{
+    KeyType key; // 关键字
+    InfoType otherinfo;
+}ElemType;
+
+typedef struct BSTNode{
+    ElemType data; 					 // 每个结点的数据域包括关键字项和其他数据项
+    struct BSTNode *lchild, *rchild; // 左右孩子指针
+}BSTNode, *BSTree;
+```
+
+###### a. 二叉排序树的查找
+
+算法步骤：
+
+1. 若二叉排序树为空， 则查找失败，返回空指针。
+2. 若二叉排序树非空， 将给定值 key 与根结点的关键字 `T->data.key` 进行比较：
+   - 若 key 等于 `T->data.key`，则查找成功，返回根结点地址；
+   - 若 key 小于 `T->data.key`，则递归查找左子树；
+   - 若 key 大于 `T->data.key`，则递归查找右子树。
+
+```cpp
+BSTree SearchBST(BSTree T, KeyType key){
+    if(!T || key==T->data.key) return T; // 查找结束
+    else if(key<T->data.key) return SearchBST(T->lchild, key); // 继续查找左子树
+    else return SearchBST(T->rchild, key); // 继续查找右子树
+}
+```
+
+###### b. 二叉排序树的插入
+
+算法步骤：
+
+1. 若二叉排序树为空，则待插入结点 `*S` 作为根结点插入到空树中。
+2. 若二叉排序树非空，则将 key 与根结点的关键字 `T->data.key` 进行比较：
+   - 若 key 小于 `T->data.key`，则将 `*S` 插入左子树；
+   - 若 key 大千 `T->data.key`，则将 `*S` 插入右子树。
 
 ## 七、排序
