@@ -9,7 +9,6 @@
 #### 1. 猜数字
 
 ```cpp
-<<<<<<< HEAD
 #include <iostream>
 =======
 #include <iostream> // 猜数字
@@ -3174,7 +3173,6 @@ try {
 > };
 > ```
 
-<<<<<<< HEAD
 ## 十七、名称空间
 
 命名空间提供了一种在大项目中**避免名字冲突**的方法。在命名空间块内声明的符号被放入一个具名的作用域中，避免这些符号被误认为其他作用域中的同名符号。多个命名空间块的名字可以相同。这些块中的所有声明在该具名作用域声明。
@@ -3345,9 +3343,6 @@ namespace fbz = foo::bar::baz; // 为命名空间baz取别名
 ```
 
 ## 十八、STL标准模板库
-=======
-## 十七、STL标准模板库
->>>>>>> c773150d856d087b91832de17ec0c70b79d6f595
 
 #### 1. STL基础知识
 
@@ -3937,7 +3932,6 @@ STL（Standard Template Library，标准模板库），STL广义上分为容器�
 3. `list`插入和删除
 
    ```cpp
-   <<<<<<< HEAD
    push_back(elem);  // 在容器尾部加入一个元素
    pop_back();       // 删除容器中最后一个元素
    push_front(elem); // 在容器开头插入一个元素
@@ -3961,33 +3955,22 @@ STL（Standard Template Library，标准模板库），STL广义上分为容器�
    erase(beg,end);//删除[beg,end)区间的数据，返回下一个数据的位置。
    erase(pos);//删除pos位置的数据，返回下一个数据的位置。
    remove(elem);//删除容器中所有与elem值匹配的元素。
->>>>>>> c773150d856d087b91832de17ec0c70b79d6f595
-
    ```
 
 4. `list`数据存取
 
    ```cpp
    front();//返回list第一个元素的引用
-   <<<<<<< HEAD
    back(); //返回list最后一个元素的引用
-   =======
-   back();//返回list最后一个元素的引用
->>>>>>> c773150d856d087b91832de17ec0c70b79d6f595
-   
+   back();//返回list最后一个元素的引用   
    ```
-
 5. `list`反转和排序
 
    ```cpp
-   <<<<<<< HEAD
    reserve(); 	// 反转链表
    sort(); 	// 链表排序
-   =======
    reserve(); // 反转链表
    sort(); // 链表排序
->>>>>>> c773150d856d087b91832de17ec0c70b79d6f595
-
    ```
 
 6. `forward_list`
@@ -4008,7 +3991,6 @@ STL（Standard Template Library，标准模板库），STL广义上分为容器�
    std::pair<string, int> pr1(pr); // 拷贝构造函数
    pr.first; // 可以获得第一个元素的引用
    pr.second; // 可以获得第二个元素的引用
-   ```
 
    `<utility>`重载了`pair`对象的`<、<=、>、>=、==、!=`，规则是，先比较`first`元素大小，相等则比较`second`元素的大小。进行比较时，两个`pair`对象的类型必须相等。
 
@@ -6813,6 +6795,8 @@ BSTree SearchBST(BSTree T, KeyType key){
 }
 ```
 
+时间复杂度 O($\log_2n$)。
+
 ###### b. 二叉排序树的插入
 
 算法步骤：
@@ -6820,6 +6804,101 @@ BSTree SearchBST(BSTree T, KeyType key){
 1. 若二叉排序树为空，则待插入结点 `*S` 作为根结点插入到空树中。
 2. 若二叉排序树非空，则将 key 与根结点的关键字 `T->data.key` 进行比较：
    - 若 key 小于 `T->data.key`，则将 `*S` 插入左子树；
-   - 若 key 大千 `T->data.key`，则将 `*S` 插入右子树。
+   - 若 key 大于 `T->data.key`，则将 `*S` 插入右子树。
+
+```cpp
+void InsertBST(BSTree &T, ElemType e){
+    if(!T){ // 找到插入位置
+        S=new BSTNode; // 生成新结点 *S
+        S->data=e;
+        S->lchild=S->rchild=nullptr; // 初始化数据域，左右孩子
+        T=S; // 把新结点*S链接到已找到的插入位置
+    }
+    else if(e.key<T->data.key) InsertBST(T->lchild, e); // 将*S插入左子树
+    else if(e.key>T->data.key) InsertBST(T->rchild, e); // 将*S插入右子树
+}
+```
+
+时间复杂度 O($\log_2n$)。
+
+###### c. 二叉排序树的创建
+
+二叉排序树的创建是从空的二叉排序树开始的，每输入一 个结点，经过查找操作，将新结点插入到当前二叉排序树的合适位置。
+
+![image-20230413180546189](https://raw.githubusercontent.com/yihanzhishui/PicGo/img/image-20230413180546189.png)
+
+算法步骤：
+
+1. 将二叉排序树 T 初始化为空树。
+2. 读入一个关键字为 key 的结点。
+3. 如果读入的关键字 key 不是输入结束标志，则循环执行以下操作：
+   - 将此结点插入二叉排序树 T 中；
+   - 读入一个关键字为 key 的结点。
+
+```cpp
+void CreateBST(BSTree &T){
+    T=nullptr; // 初始化为空树
+    cin>>e;
+    while(e.key!=ENDFLAG){ // ENDFLAG为自定义常量，作为输入结束标志
+        InsertBST(T, e); // 将此结点插入二叉排序树 T 中
+        cin>>e;
+    }
+}
+```
+
+###### d. 二叉排序树的删除
+
+![image-20230413184035209](https://raw.githubusercontent.com/yihanzhishui/PicGo/img/image-20230413184035209.png)
+
+```cpp
+void DeleteBST(BSTree &T, KeyType key) {
+    p = T;
+    f = nullptr; // 初始化
+    /*------------下面的while循环从根开始查找关键字等于key的结点*p---------------*/
+    while (p) {
+        if (p->data.key == key) break; // 找到关键字等于key的结点*p，结束循环
+        f = p;     // *f为*p的双亲结点
+        if (p->data.key > key) p = p->lchild; // 在*p的左子树中继续查找
+        else p = p->rchild; // 在*p的右子树中继续查找
+    }                      // while
+    if (!p) return; // 找不到被删结点则返回
+    /*----考虑3种情况实现p所指子树内部的处理：*p左右子树均不空、无右子树、无左子树----*/
+    if ((p->lchild) && (p->rchild)) { // 被删结点*p左右子树均不为空
+        q = p;
+        s = p->lchild; // 在*p的左子树中继续查找其前驱结点，即最右下结点
+        while (s->rchild) {
+            q = s;
+            s = s->rchild; // 向右到尽头
+        }
+        p->data = s->data; // s指向被删结点的"前驱"
+        if (q != p) q->rchild = s->lchild; // 重接 *q 的右子树
+        else q->lchild = s->lchild; // 重接 *q 的右子树
+        delete s;
+        return;
+    } else if (!p->rchild) { // 被删结点*p无右子树，只需重接其左子树
+        q = p;
+        p = p->lchild;
+    } else if (!p->lchild) { // 被删结点*p无左子树，只需重接其右子树
+        q = p;
+        p = p->rchild;
+    }
+    /*------------------将p所指的子树挂接到其双亲结点*f相应的位置-----------------*/
+    if (!f) T = p; // 被删结点为根结点
+    else if (q == f->lchild) f->lchild = p; // 挂接*f的左子树位置
+    else f->rchild = p; // 挂接*f的右子树位置
+    delete q;
+}
+```
+
+时间复杂度为 O($\log_2n$)。
+
+#### 3. 平衡二叉树
+
+**平衡二叉树**或者是空树，或者是具有如下特征的二叉排序树： 
+
+1. 左子树和右子树的深度之差的绝对值不超过1；
+2. 左子树和右子树也是平衡二叉树。
+
+- 平衡因子：定义为该结点左子树和右子树的深度之差，则平衡二叉树上所有结点的平衡因子只可能是 -1、0 和 1。
 
 ## 七、排序
