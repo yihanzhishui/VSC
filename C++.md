@@ -6903,7 +6903,7 @@ void DeleteBST(BSTree &T, KeyType key) {
 
 - 平衡因子：定义为该结点左子树和右子树的深度之差，则平衡二叉树上所有结点的平衡因子只可能是 -1、0 和 1。
 
-##### A. 平衡树的生成过程：
+##### A. 平衡树的生成过程
 
 ![image-20230413215422041](https://raw.githubusercontent.com/yihanzhishui/PicGo/img/image-20230413215422041.png)![image-20230413215253676](https://raw.githubusercontent.com/yihanzhishui/PicGo/img/image-20230413215253676.png)
 
@@ -6930,6 +6930,8 @@ struct AVLNode {
 };
 ```
 
+##### B. 非平衡树的调整
+
 1. LL型：在被破坏节点的左边的左边插入而导致失衡。
 
    <img src="https://pic4.zhimg.com/v2-373766641d1c03a78f3d7eac803d1f57_b.webp" alt="img" style="zoom:50%;" /> 
@@ -6948,7 +6950,7 @@ struct AVLNode {
        node->lchild = son->rchild; // 失衡结点的左孩子变更为son的右孩子
        update_depth(node);         // 更新失衡结点的高度信息
        son->rchild = node;         // 失衡结点变成son的右孩子
-       son->parent = parent; // 设置son的父结点为原失衡结点的父结点
+       son->parent = parent;  // 设置son的父结点为原失衡结点的父结点
        if (parent != nullptr) // 如果失衡结点不是根结点，则开始更新父节点
            if (parent->lchild == node)
                parent->lchild = son; // 如果父节点的左孩子是失衡结点，指向现在更新后的新孩子son
@@ -7018,7 +7020,7 @@ struct AVLNode {
    <img src="https://img-blog.csdnimg.cn/20191229175624726.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L20wXzM3OTE0NTg4,size_16,color_FFFFFF,t_70" alt="img-RL" style="zoom:50%;" /> 
 
    解决方案：以被破坏节点 R（右）节点为基础先进行一次 R（右）旋，再以被破坏节点为基础进行左旋。
-   
+
    ```cpp
    // RL型，先右旋转，再左旋转
    // 返回:新父节点
@@ -7051,7 +7053,71 @@ int is_balance(Tree node) {
 }
 ```
 
+#### 4. B-树
 
+一棵m阶的B-树，或为空树，或为满足下列特性的m叉树：
+
+1. 树中每个结点至多有 m 棵子树；
+
+2. 若根结点不是叶子结点，则至少有两棵子树；
+
+3. 除根之外的所有非终端结点至少有 $\lceil m/2\rceil $ 棵子树；
+
+4. 所有的叶子结点都出现在同一层次上，并且不带信息，通常称为失败结点（失败结点并 不存在，指向这些结点的指针为空。引入失败结点是为了便千分析B-树的查找性能）；
+
+5. 所有的非终端结点最多有 m-1 个关键字。
+
+   ![img-B_DE_TREE](https://raw.githubusercontent.com/yihanzhishui/PicGo/img/img/image-20230414150352772.png)
+
+   ```cpp
+   #define m 3 // B-树的阶，暂为3
+   typedef struct BTNode {
+       int key_num;           // 节点中关键字的个数，即结点的大小
+       struct BTNode *parent; // 指向双亲结点
+       KeyType key[m + 1];    // 关键字向量，0号单元未用
+       struct BTNode *ptr[m + 1]; // 子树指针向量
+       ReCord *recptr[m + 1];     // 记录指针向量，0号单元未用
+   } BTNode, *BTree;              // B-树结点和B-树的类型
+   
+   typedef struct {
+       BTNode *pt; // 指向找到的结点
+       int i;      // 1..m，在结点中的关键字序号
+       int tag;    // B-树的查找结构类型
+   } Result;
+   ```
+
+##### A. B-树的查找
+
+算法步骤：
+
+将给定值 key 与根结点的各个关键字 $K_1,K_2,...K_j(i\leqslant j\leqslant m-1)$ 进行比较， 由于该关键字序列是有序的， 所以查找时可采用顺序查找， 也可采用折半查找。 查找时：
+
+1. 若 $key=K_i$ （$i\leqslant i\leqslant j$）， 则查找成功；
+2. 若 $key<K_1$，则顺着指针 P~i~ 所指向的子树继续向下查找；
+3. 若 $K_1<key<K_{i+1},(1\leqslant i\leqslant j-1)$，则顺着指针 P~i~ 所指向的子树继续向下查找；
+4. 若 $key>K_j$，则顺着指针 P~j~ 所指向的子树继续向下查找。
+
+```cpp
+Result SearchBTree(BTree T, KeyType key) {
+    p = T;
+    q = nullptr;
+    found = false;
+    i = 0; // 初始化，p指向待查结点，q指向p的双亲
+    while (p && !found) {
+        i = Search(p, key); // 在p->key[1..key_num]中查找i，使得：p->key[i]<=key<p->key[i+1]
+        if (i > 0 && p->key[i] == k)
+            found = true; // 找到待查关键字
+        else {
+            q = p;
+            p = p->ptr[i];
+        }
+    }
+    if (found)
+        return (p, i, 1); // 查找成功
+    else
+        return (q, i, 1); // 查找不成功，返回k的插入位置信息
+}
+```
 
 
 
