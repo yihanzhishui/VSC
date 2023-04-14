@@ -6909,11 +6909,34 @@ void DeleteBST(BSTree &T, KeyType key) {
 
 一般情况下，假设最小不平衡子树的根结点为 A，则失去平衡后进行调整的规律可归纳为下列4种情况。
 
-1. LL型：
-2. RR型：
-3. LR型：
-4. RL型：
+1. LL型：在被破坏节点的左边的左边插入而导致失衡。
 
+   <img src="https://img-blog.csdnimg.cn/20191229165610778.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L20wXzM3OTE0NTg4,size_16,color_FFFFFF,t_70" alt="img" style="zoom:50%;" /> 
 
+   解决方案：以被破坏节点为基础进行右旋。
+
+   右旋：
+
+   ![img-右旋](https://img-blog.csdn.net/20180722222413303) 
+
+2. RR型：在被破坏节点的右边的右边插入而导致失衡。
+
+   <img src="https://img-blog.csdnimg.cn/20191229172658695.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L20wXzM3OTE0NTg4,size_16,color_FFFFFF,t_70" alt="img-RR" style="zoom:70%;" /> 
+
+   解决方案：以被破坏节点为基础进行左旋。
+
+   ![img-左旋](https://img-blog.csdn.net/20180722220546910) 
+
+3. LR型：在被破坏节点的左边的右边插入而导致失衡。
+
+   <img src="https://img-blog.csdnimg.cn/20191229174410251.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L20wXzM3OTE0NTg4,size_16,color_FFFFFF,t_70" alt="img-LR" style="zoom:67%;" /> 
+
+   解决方案：以被破坏节点 L（左）节点为基础先进行一次 L（左）旋，再以被破坏节点为基础进行右旋。
+
+4. RL型：在被破坏节点的右边的左边插入而导致失衡。
+
+   <img src="https://img-blog.csdnimg.cn/20191229175624726.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L20wXzM3OTE0NTg4,size_16,color_FFFFFF,t_70" alt="img-RL" style="zoom:50%;" /> 
+
+   解决方案：以被破坏节点 R（右）节点为基础先进行一次 R（右）旋，再以被破坏节点为基础进行左旋。
 
 ## 七、排序
