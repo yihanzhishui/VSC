@@ -6892,6 +6892,8 @@ void DeleteBST(BSTree &T, KeyType key) {
 
 时间复杂度为 O($\log_2n$)。
 
+:anchor:[**平衡二叉树（AVL） - 知乎**](https://zhuanlan.zhihu.com/p/56066942)
+
 #### 3. 平衡二叉树
 
 **平衡二叉树**或者是空树，或者是具有如下特征的二叉排序树： 
@@ -6901,7 +6903,7 @@ void DeleteBST(BSTree &T, KeyType key) {
 
 - 平衡因子：定义为该结点左子树和右子树的深度之差，则平衡二叉树上所有结点的平衡因子只可能是 -1、0 和 1。
 
-平衡树的生成过程：
+##### A. 平衡树的生成过程：
 
 ![image-20230413215422041](https://raw.githubusercontent.com/yihanzhishui/PicGo/img/image-20230413215422041.png)![image-20230413215253676](https://raw.githubusercontent.com/yihanzhishui/PicGo/img/image-20230413215253676.png)
 
@@ -6909,11 +6911,54 @@ void DeleteBST(BSTree &T, KeyType key) {
 
 一般情况下，假设最小不平衡子树的根结点为 A，则失去平衡后进行调整的规律可归纳为下列4种情况。
 
+```cpp
+typedef struct AVLNode *Tree;
+typedef int ElementType;
+
+struct AVLNode {
+    int depth; // 深度，这里计算每个结点的深度，通过深度的比较可得出是否平衡
+    Tree parent;     // 该结点的父节点
+    ElementType val; // 结点值
+    Tree lchild; // 左子树
+    Tree rchild; // 右子树
+    AVLNode(int val = 0) {
+        parent = nullptr;
+        depth = 0;
+        lchild = rchild = nullptr;
+        this->val = val;
+    }
+};
+```
+
 1. LL型：在被破坏节点的左边的左边插入而导致失衡。
 
-   <img src="https://img-blog.csdnimg.cn/20191229165610778.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L20wXzM3OTE0NTg4,size_16,color_FFFFFF,t_70" alt="img" style="zoom:50%;" /> 
+   <img src="https://pic4.zhimg.com/v2-373766641d1c03a78f3d7eac803d1f57_b.webp" alt="img" style="zoom:50%;" /> 
 
    解决方案：以被破坏节点为基础进行右旋。
+
+   ```cpp
+   // LL型调整函数
+   // 返回:新父节点
+   Tree LL_rotate(Tree node) { // node为离操作结点最近的失衡的结点
+       Tree parent = nullptr, son;
+       parent = node->parent; // 获取失衡结点的父节点
+       son = node->lchild;    // 获取失衡结点的左孩子
+       if (son->rchild != nullptr)
+           son->rchild->parent = node; // 设置son结点右孩子的父指针
+       node->lchild = son->rchild; // 失衡结点的左孩子变更为son的右孩子
+       update_depth(node);         // 更新失衡结点的高度信息
+       son->rchild = node;         // 失衡结点变成son的右孩子
+       son->parent = parent; // 设置son的父结点为原失衡结点的父结点
+       if (parent != nullptr) // 如果失衡结点不是根结点，则开始更新父节点
+           if (parent->lchild == node)
+               parent->lchild = son; // 如果父节点的左孩子是失衡结点，指向现在更新后的新孩子son
+           else
+               parent->rchild = son; // 父节点的右孩子是失衡结点
+       node->parent = son;           // 设置失衡结点的父亲
+       update_depth(son);            // 更新son结点的高度信息
+       return son;
+   }
+   ```
 
    右旋：
 
@@ -6921,9 +6966,35 @@ void DeleteBST(BSTree &T, KeyType key) {
 
 2. RR型：在被破坏节点的右边的右边插入而导致失衡。
 
-   <img src="https://img-blog.csdnimg.cn/20191229172658695.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L20wXzM3OTE0NTg4,size_16,color_FFFFFF,t_70" alt="img-RR" style="zoom:70%;" /> 
+   <img src="https://pic1.zhimg.com/v2-e7044e4965ba640ee9ef35beac407cdc_b.webp" alt="img-RR" style="zoom:50%;" /> 
 
    解决方案：以被破坏节点为基础进行左旋。
+
+   ```cpp
+   // RR型调整函数
+   // 返回新父节点
+   Tree RR_rotate(Tree node) { // node为离操作结点最近的失衡的结点
+       Tree parent = nullptr, son;
+       parent = node->parent; // 获取失衡结点的父节点
+       son = node->rchild;    // 获取失衡结点的右孩子
+       if (son->lchild != nullptr)
+           son->lchild->parent = node; // 设置son结点左孩子的父指针
+       node->rchild = son->lchild; // 失衡结点的右孩子变更为son的左孩子
+       update_depth(node);         // 更新失衡结点的高度信息
+       son->lchild = node;         // 失衡结点变成son的左孩子
+       son->parent = parent; // 设置son的父结点为原失衡结点的父结点
+       if (parent != nullptr) // 如果失衡结点不是根结点，则开始更新父节点
+           if (parent->lchild == node)
+               parent->lchild = son; // 如果父节点的左孩子是失衡结点，指向现在更新后的新孩子son
+           else
+               parent->rchild = son; // 父节点的右孩子是失衡结点
+       node->parent = son;           // 设置失衡结点的父亲
+       update_depth(son);            // 更新son结点的高度信息
+       return son;
+   }
+   ```
+
+   右旋：
 
    ![img-左旋](https://img-blog.csdn.net/20180722220546910) 
 
@@ -6933,10 +7004,55 @@ void DeleteBST(BSTree &T, KeyType key) {
 
    解决方案：以被破坏节点 L（左）节点为基础先进行一次 L（左）旋，再以被破坏节点为基础进行右旋。
 
+   ```cpp
+   // LR型，先左旋转，再右旋转
+   // 返回：新父节点
+   Tree LR_rotate(Tree node) {
+       RR_rotate(node->lchild);
+       return LL_rotate(node);
+   }
+   ```
+
 4. RL型：在被破坏节点的右边的左边插入而导致失衡。
 
    <img src="https://img-blog.csdnimg.cn/20191229175624726.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L20wXzM3OTE0NTg4,size_16,color_FFFFFF,t_70" alt="img-RL" style="zoom:50%;" /> 
 
    解决方案：以被破坏节点 R（右）节点为基础先进行一次 R（右）旋，再以被破坏节点为基础进行左旋。
+   
+   ```cpp
+   // RL型，先右旋转，再左旋转
+   // 返回:新父节点
+   Tree RL_rotate(Tree node) {
+       LL_rotate(node->rchild);
+       return RR_rotate(node);
+   }
+   ```
+
+上述辅助代码：
+
+```cpp
+// 更新当前深度
+void update_depth(Tree node) {
+    if (node == nullptr)
+        return;
+    else {
+        int depth_Lchild = get_balance(node->lchild); // 左孩子深度
+        int depth_Rchild = get_balance(node->rchild); // 右孩子深度
+        node->depth = max(depth_Lchild, depth_Rchild) + 1;
+    }
+}
+
+// 获取当前结点的深度
+int get_balance(Tree node) { return node == nullptr ? 0 : node->depth; }
+
+// 返回当前平衡因子
+int is_balance(Tree node) {
+    return node == nullptr ? 0 : (get_balance(node->lchild) - get_balance(node->rchild));
+}
+```
+
+
+
+
 
 ## 七、排序
