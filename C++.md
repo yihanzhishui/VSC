@@ -9,10 +9,7 @@
 #### 1. 猜数字
 
 ```cpp
-#include <iostream>
-=======
 #include <iostream> // 猜数字
->>>>>>> c773150d856d087b91832de17ec0c70b79d6f595
 #include <ctime>
 #include <cstdlib>
 
@@ -1376,9 +1373,8 @@ arr.pop_back();
    - 成员属性私有化
 
      > 可以自己控制成员权限=>getter和setter方法
-  >
+     >
      > 对于写可以检测数据有效性
-
 3. 构造函数和析构函数
 
    这两个函数将会被编译器**自动调用**，完成对象**初始化和清理**工作。对象的初始化和清理工作是编译器强制要我们做的事情，因此如果我们不提供构造和析构，编译器会提供，编译器提供的构造函数和析构函数是空实现。
@@ -2130,7 +2126,7 @@ int main() {
 
    类存储的是`vfptr`虚函数指针，指向`vftable`虚函数表格，虚函数表格存储本类虚函数的偏移地址。通过虚函数指针就可以访问需函数。当子类重写了父类的虚函数，子类的虚函数表中的虚函数指针会指向子类重写过后的虚函数。
 
-   ![img](https://github.com/yihanzhishui/PicGo/blob/img/image.png?raw=true)
+   <img src="https://github.com/yihanzhishui/PicGo/blob/img/image.png?raw=true" alt="img" style="zoom:50%;" />
    
    当出现**父类的指针或者引用指向子类对象**的时候，就会发生多态。
    
@@ -3077,7 +3073,7 @@ try{
 ##### B. C++ 标准异常
 
 ```mermaid
-flowchart LR
+flowchart TB
 
 std::exception(std::exception)-->std::bad_allc(std::bad_allc)
 std::exception-->std::bad_cast(std::bad_cast)
@@ -5198,7 +5194,7 @@ typedef struct DuLNode{
 
 ###### A. 双向链表的插入
 
-![image-20230406222200184](https://raw.githubusercontent.com/yihanzhishui/PicGo/img/image-20230406222200184.png)
+![image-20230414215221427](https://raw.githubusercontent.com/yihanzhishui/PicGo/img/image-20230414215221427.png)
 
 ```cpp
 Status ListInsert_DuL(DuLinkList &L, int i, ElemType e){
@@ -7002,7 +6998,7 @@ struct AVLNode {
 
 3. LR型：在被破坏节点的左边的右边插入而导致失衡。
 
-   <img src="https://img-blog.csdnimg.cn/20191229174410251.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L20wXzM3OTE0NTg4,size_16,color_FFFFFF,t_70" alt="img-LR" style="zoom:67%;" /> 
+   ![](https://raw.githubusercontent.com/yihanzhishui/PicGo/img/image-20230414213217774.png) 
 
    解决方案：以被破坏节点 L（左）节点为基础先进行一次 L（左）旋，再以被破坏节点为基础进行右旋。
 
@@ -7017,7 +7013,7 @@ struct AVLNode {
 
 4. RL型：在被破坏节点的右边的左边插入而导致失衡。
 
-   <img src="https://img-blog.csdnimg.cn/20191229175624726.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L20wXzM3OTE0NTg4,size_16,color_FFFFFF,t_70" alt="img-RL" style="zoom:50%;" /> 
+   ![image-20230414212857386](https://raw.githubusercontent.com/yihanzhishui/PicGo/img/image-20230414212857386.png) 
 
    解决方案：以被破坏节点 R（右）节点为基础先进行一次 R（右）旋，再以被破坏节点为基础进行左旋。
 
@@ -7067,7 +7063,7 @@ int is_balance(Tree node) {
 
 5. 所有的非终端结点最多有 m-1 个关键字。
 
-   ![img-B_DE_TREE](https://raw.githubusercontent.com/yihanzhishui/PicGo/img/img/image-20230414150352772.png)
+   ![image-20230414212134931](https://raw.githubusercontent.com/yihanzhishui/PicGo/img/image-20230414212134931.png)
 
    ```cpp
    #define m 3 // B-树的阶，暂为3
