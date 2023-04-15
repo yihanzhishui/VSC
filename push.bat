@@ -1,8 +1,10 @@
 @echo off
 rem git push
-git add .
-time_=%date:~0,4%-%date:~5,2%-%date:~8,2%_%time:~0,2%_%time:~3,2%_%time:~6,2%_
-str=from LEGION
-name_=$time str
-git commit -m  time
+chcp 65001
+git add C++.md 
+git add 离散数学.pdf 
+git add 数据结构.pdf 
+git add cppreference-zh-20221231.chm 
+git add C++.pdf
+git commit -m "from LEGION"
 git push
