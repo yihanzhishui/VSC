@@ -84,7 +84,7 @@ for (int i = 1; i <= 9; i++) {
 
 - 定义方式
 
-  ```
+  ```cpp
   数据类型 数组名[ 数组长度 ];
   数据类型 数组名[ 数组长度 ] = {值1,值2...};
   数据类型 数组名[] = {值1,值2...};
@@ -313,7 +313,7 @@ int main() {
 
    - 在Lambda表达式内可以访问当前作用域的变量，这是Lambda表达式的闭包（Closure）行为。C++变量传递有传值和传引用的区别。可以通过前面的[]来指定：
 
-     ```
+     ```cpp
      []      // 沒有定义任何变量。使用未定义变量会引发错误。
      [x, &y] // x以传值方式传入（默认），y以引用方式传入。
      [&]     // 任何被使用到的外部变量都隐式地以引用方式加以引用。
@@ -405,7 +405,7 @@ int main() {
    
 2. 指定范围随机数：可使用取余操作控制范围`rand() % (max - min + 1) + min`，生成30~100的随机数：
 
-   ```
+   ```cpp
    #include <iostream>
    #include <cmath>
    #include<ctime>
@@ -437,7 +437,7 @@ int main() {
 
    以下定义等价：
 
-   ```
+   ```cpp
    int a[4] = { 1, 2 };
    int a[]  = { 1, 2, 0, 0 };
    int a[]  = { 1, 2, 0, 0,};
@@ -446,7 +446,7 @@ int main() {
    
 6. 数组的初始化器必须与数组元素具有相同的类型。
 
-   ```
+   ```cpp
 typedef struct { unsigned long pin;
                     char name[64];
                     /* ... */
@@ -462,7 +462,7 @@ typedef struct { unsigned long pin;
 
    **索引值必须是整数常量表达式**
 
-   ```
+   ```cpp
 #define size 20
    int arr[size] = {1, 2, [size/2]=0, 2};
    ```
@@ -471,7 +471,7 @@ typedef struct { unsigned long pin;
 
    **如果在定义数组时没有指定其长度，那么元素指示符的索引值可以是任何的非负整数值。**因此，下面的定义会创建一个有 1001 个元素的数组。
 
-   ```
+   ```cpp
 int a[ ] = { [1000] = -1 };
    ```
    
@@ -479,7 +479,7 @@ int a[ ] = { [1000] = -1 };
 
 8. 常用字符串函数
 
-   ```
+   ```cpp
    strcpy(s1,s2);//将s2复制给s1
    strcat(s1,s2);//连接字符串 s2 到字符串 s1 的末尾。连接字符串也可以用 + 号
    strlen(s1);//返回字符串长度
@@ -507,7 +507,7 @@ int a[ ] = { [1000] = -1 };
 
 **指针**是一个变量，其值为另一个变量的地址，即，内存位置的直接地址。就像其他变量或常量一样，必须在使用指针存储其他变量地址之前，对其进行声明。`type *var_name`
 
-```
+```cpp
 int    *ip;    /* 一个整型的指针 */
 double *dp;    /* 一个 double 型的指针 */
 float  *fp;    /* 一个浮点型的指针 */
@@ -533,7 +533,7 @@ Value of *ip variable: 20
 
 在变量声明的时候，如果没有确切的地址可以赋值，为指针变量赋一个 `NULL` 值是一个良好的编程习惯。`NULL` 指针是一个定义在标准库中的值为零的常量。**在 C++11之后，建议赋值为`nullptr`，因为`NULL`实际上还是一个整形数，`nullptr`是C++11过后给出的空指针表示。**
 
-```
+```cpp
 if(ptr)     /* 如果 ptr 非空，则完成 */
 if(!ptr)    /* 如果 ptr 为空，则完成 */
 ```
@@ -556,7 +556,7 @@ if(!ptr)    /* 如果 ptr 为空，则完成 */
 
   示例：
 
-  ```
+  ```cpp
   // 此处的0x1100这块内存空间并不是程序所申请的空间
   int *p = (int *)0x1100;
   cout << *p; // 此处就会出现错误 访问权限冲突 或者 没有访问权限
@@ -571,7 +571,7 @@ if(!ptr)    /* 如果 ptr 为空，则完成 */
 
   **特点**：指针的指向可以修改，但是指针指向的值不能修改。
 
-  ```
+  ```cpp
   int a = 10, b = 20;
   const int *p = &a;
   *p = 30; // *p不是一个可以修改的值
@@ -582,7 +582,7 @@ if(!ptr)    /* 如果 ptr 为空，则完成 */
 
   **特点**：指针指向的值可以修改，但是指针的指向不能修改。
 
-  ```
+  ```cpp
   int a = 10, b = 20;
   int * const p = &a;
   *p = 30;
@@ -593,7 +593,7 @@ if(!ptr)    /* 如果 ptr 为空，则完成 */
 
   特点：指针的指向和指针指向的值都不可以修改
 
-  ```
+  ```cpp
   int a = 10, b = 20;
   const int *const p = &a;
   *p = 30; // *p不是一个可以修改的值
@@ -604,7 +604,7 @@ if(!ptr)    /* 如果 ptr 为空，则完成 */
 
 - 使用指针访问数组
 
-  ```
+  ```cpp
   int main() {
       int arr[] = {1, 2, 3, 4, 5, 6, 7, 8, 9};
       int *p = arr; // 数组名相当于首地址
@@ -622,7 +622,7 @@ if(!ptr)    /* 如果 ptr 为空，则完成 */
 
 #### 6. 指针作为函数参数
 
-```
+```cpp
 void swap(int *p1, int *p2) {
     int temp = *p1;
     *p1 = *p2;
@@ -656,7 +656,7 @@ int main() {
 > - 引用必须在创建时被初始化。指针可以在任何时间被初始化。
 >
 
-```
+```cpp
 int main ()
 {
    // 声明简单的变量
@@ -687,7 +687,7 @@ Value of d reference : 11.7
 
 #### 1. 将引用作为参数
 
-```
+```cpp
 void swap(int &a,int &b);
 
 int main() {
@@ -715,7 +715,7 @@ void swap(int &a,int &b){
 
 通过使用引用来替代指针，会使 C 程序更容易阅读和维护。C 函数可以返回一个引用，方式与返回一个指针类似。当函数返回一个引用时，则返回一个指向返回值的隐式指针。这样，函数就可以放在赋值语句的左边。
 
-```
+```cpp
 int val[] = {1, 2, 3, 4};
 
 int &setVal(int i) {
@@ -745,7 +745,7 @@ int main() {
 
 当返回一个引用时，要注意被引用的对象**不能超出作用域**。所以返回一个对局部变量的引用是不合法的，但是，可以返回一个对静态变量的引用。
 
-```
+```cpp
 int& func() {
    int q;
    //! return q; // 在编译时发生错误
@@ -760,7 +760,7 @@ int& func() {
 
 有四个与时间相关的类型：`**clock_t、time_t、size_t**` 和 `**tm**`。类型 `clock_t、size_t` 和` time_t` 能够把系统时间和日期表示为某种整数。结构类型` tm` 把日期和时间以 C 结构的形式保存，`tm` 结构的定义如下：
 
-```
+```cpp
 struct tm {
   int tm_sec;   // 秒，正常范围从 0 到 59，但允许至 61
   int tm_min;   // 分，范围从 0 到 59
@@ -780,7 +780,7 @@ struct tm {
 
 预定义的对象 **cout** 是 **iostream** 类的一个实例。cout 对象"连接"到标准输出设备，通常是显示屏。**cout** 是与流插入运算符 << 结合使用的，如下所示：
 
-```
+```cpp
 int main(){
    char str[] = "Hello C++";
    cout << "Value of str is : " << str << endl;
@@ -791,7 +791,7 @@ int main(){
 
 预定义的对象 **cin** 是 **iostream** 类的一个实例。cin 对象附属到标准输入设备，通常是键盘。**cin** 是与流提取运算符 >> 结合使用的，如下所示：
 
-```
+```cpp
 int main(){
    char str[50];
    cin>>str;
@@ -802,7 +802,7 @@ int main(){
 
 预定义的对象 **cerr** 是 **iostream** 类的一个实例。cerr 对象附属到标准输出设备，通常也是显示屏，但是 **cerr** 对象是非缓冲的，且每个流插入到 cerr 都会立即输出。**cerr** 也是与流插入运算符 << 结合使用的，如下所示：
 
-```
+```cpp
 int main( ){
    char str[] = "Unable to read....";
    cerr << "Error message : " << str << endl;
@@ -813,7 +813,7 @@ int main( ){
 
 预定义的对象 **clog** 是 **iostream** 类的一个实例。clog 对象附属到标准输出设备，通常也是显示屏，但是 **clog** 对象是缓冲的。这意味着每个流插入到 clog 都会先存储在缓冲区，直到缓冲填满或者缓冲区刷新时才会输出。**clog** 也是与流插入运算符 << 结合使用的，如下所示：
 
-```
+```cpp
 int main( ){
    char str[] = "Unable to read....";
    clog << "Error message : " << str << endl;
@@ -826,7 +826,7 @@ int main( ){
 
 结构体变量也可以作为结构的成员。
 
-```
+```cpp
 struct type_name{
     member_type member_name;
     ...
@@ -837,7 +837,7 @@ struct type_name{
 
   1. 在定义结构体的时候顺便创建
 
-     ```
+     ```cpp
      struct Student{
          string name;
          int age;
@@ -846,7 +846,7 @@ struct type_name{
      
   2. 直接创建，`struct`可省略
   
-     ```
+     ```cpp
      struct Student s2;//Student s2;
      s2.name = "张三";
      s2.age = 17;
@@ -854,7 +854,7 @@ struct type_name{
      
   3. 在创建变量的时候顺便赋初值，`struct`可省略
   
-     ```
+     ```cpp
      struct Student s3 = {"张三",17};//Student s3 = {"张三",17};
      ```
 
@@ -866,7 +866,7 @@ struct type_name{
 
 使用方式和其他参数形式一样。
 
-```
+```cpp
 struct Student {
     string name;
 };
@@ -883,7 +883,7 @@ int main() {
 
 定义方式类似其他类型：
 
-```
+```cpp
 struct *st_ip;
 st_ip=&st_book;//指向st_book
 st_ip->book_name;//访问结构成员
@@ -891,7 +891,7 @@ st_ip->book_name;//访问结构成员
 
 学校正在做毕设项目，每名老师带领5个学生，总共有3名老师，需求如下: 设计学生和老师的结构体，其中在老师的结构体中，有老师姓名和一个存放5名学生的数组作为成员学生的成员有姓名、考试分数，创建数组存放3名老师，通过函数给每个老师及所带的学生赋值最终打印出老师数据以及老师所带的学生数据。
 
-```
+```cpp
 struct Student {
     string name;
     int score;
@@ -948,7 +948,7 @@ typedef struct A{
 
 ## 总结练习 通讯录管理系统
 
-```
+```cpp
 #include <iostream>
 #include <string>
 using namespace std;
@@ -1144,7 +1144,7 @@ int main() {
 
 **注意事项：不要返回局部变量的地址，栈区开辟的数据由编译器自动释放**
 
-```
+```cpp
 #include <iostream>
 using namespace std;
 
@@ -1168,7 +1168,7 @@ int main() {
 
 在C++中主要利用**new**在堆区开辟内存，会返回所开辟内存的地址。
 
-```
+```cpp
 #include <iostream>
 using namespace std;
 
@@ -1195,7 +1195,7 @@ C++中利用 new 操作符在堆区开辟数据。
 
 堆区开辟的数据，由程序员手动开辟，手动释放，释放利用操作符 `delete`
 
-```
+```cpp
 new 数据类型; // 返回开辟空间的地址
 int *p = new int(10);
 delete p;
@@ -1203,13 +1203,13 @@ delete p;
 
 - 在堆区开辟整型数据
 
-  ```
+  ```cpp
   int *p = new int(10);//开辟了一块地址，存储10，并将地址赋给p
   ```
 
 - 在堆区开辟整型数组
 
-  ```
+  ```cpp
   int *p = new int[10];//开辟一块地址，存储大小为10的数组，并将首地址赋给p
   ```
 
