@@ -7417,3 +7417,28 @@ void SelectSort(SqList &L) {
 ```
 
 时间复杂度 O(n^2^)。空间复杂度 O(1)。
+
+##### B. 树形选择排序
+
+又称锦标赛排序。
+
+:anchor:[[排序算法\] 树形选择排序 (C++) - 博客园](https://www.cnblogs.com/MAKISE004/p/16907534.html)
+
+##### C. 堆排序
+
+堆排序是一种树形选择排序，在排序过程中，将待排序的记录 r[1..n]看成是一 棵完全二叉树的顺序存储结构，利用完全二叉树中双亲结点和孩子结点之间的内在关系，在当前无序的序列中选择关键字最大（或最小）的记录。
+
+:anchor:[堆排序详细图解-CSDN](https://blog.csdn.net/weixin_51609435/article/details/122982075)
+
+#### 5. 归并排序
+
+:anchor:[归并排序算法-CSDN](https://blog.csdn.net/u012294613/article/details/125527224)
+
+#### 6. 基数排序
+
+:anchor:[基数排序-CSDN](https://blog.csdn.net/cativen/article/details/124703532)
+
+#### 7. 外部排序
+
+:anchor:[外部排序算法-CSDN](https://blog.csdn.net/ccc369639963/article/details/122418082)
+
