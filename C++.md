@@ -7571,3 +7571,5 @@ void SelectSort(SqList &L) {
    - `top`：强化版的Windows任务管理器。用于动态地监视进程活动与系统负载等信息
 
      按<kbd>q</kbd>退出。
+     
+   - `nice`：调整进程的优先级，语法格式为“nice优先级数字服务名称”。
