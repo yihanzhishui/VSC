@@ -1,0 +1,27 @@
+
+An error occurred while loading ./main_spec.rb.
+Failure/Error: __send__(method, file)
+
+LoadError:
+  cannot load such file -- /root/Code/duck_db/duck_db-master/main_spec.rb
+# /var/lib/gems/2.7.0/gems/rspec-core-3.12.2/lib/rspec/core/configuration.rb:2117:in `load'
+# /var/lib/gems/2.7.0/gems/rspec-core-3.12.2/lib/rspec/core/configuration.rb:2117:in `load_file_handling_errors'
+# /var/lib/gems/2.7.0/gems/rspec-core-3.12.2/lib/rspec/core/configuration.rb:1617:in `block in load_spec_files'
+# /var/lib/gems/2.7.0/gems/rspec-core-3.12.2/lib/rspec/core/configuration.rb:1615:in `each'
+# /var/lib/gems/2.7.0/gems/rspec-core-3.12.2/lib/rspec/core/configuration.rb:1615:in `load_spec_files'
+# /var/lib/gems/2.7.0/gems/rspec-core-3.12.2/lib/rspec/core/runner.rb:102:in `setup'
+# /var/lib/gems/2.7.0/gems/rspec-core-3.12.2/lib/rspec/core/runner.rb:86:in `run'
+# /var/lib/gems/2.7.0/gems/rspec-core-3.12.2/lib/rspec/core/runner.rb:71:in `run'
+# /var/lib/gems/2.7.0/gems/rspec-core-3.12.2/lib/rspec/core/runner.rb:45:in `invoke'
+# /var/lib/gems/2.7.0/gems/rspec-core-3.12.2/exe/rspec:4:in `<top (required)>'
+# /usr/local/bin/rspec:23:in `load'
+# /usr/local/bin/rspec:23:in `<main>'
+# 
+#   Showing full backtrace because every line was filtered out.
+#   See docs for RSpec::Configuration#backtrace_exclusion_patterns and
+#   RSpec::Configuration#backtrace_inclusion_patterns for more information.
+
+
+Finished in 0.00006 seconds (files took 0.4818 seconds to load)
+0 examples, 0 failures, 1 error occurred outside of examples
+
